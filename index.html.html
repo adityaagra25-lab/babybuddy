@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BabyBuddy – Babysitter Platform Prototype</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --yellow: #facc15;
+      --bg: #f3f4f6;
+      --text-dark: #0f172a;
+      --text-muted: #6b7280;
+      --card-radius: 18px;
+      --shadow: 0 14px 35px rgba(15, 23, 42, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #e0f2fe 0, #eff6ff 45%, #f9fafb 100%);
+      color: var(--text-dark);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--blue-dark);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fef9c3, #facc15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 8px 20px rgba(234, 179, 8, 0.5);
+    }
+
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: white;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text-dark);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 18px auto 40px;
+      padding: 0 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    section {
+      scroll-margin-top: 80px;
+    }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 24px 22px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* HERO / HOME */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .hero-left h1 {
+      font-size: 30px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, #facc15, #fde68a);
+      padding: 3px 7px;
+      border-radius: 999px;
+    }
+
+    .hero-left p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 11px;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .badge-yellow {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-right {
+      position: relative;
+      padding: 14px;
+    }
+
+    .hero-card {
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      border-radius: 26px;
+      padding: 18px;
+      color: white;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .hero-card-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .hero-chip {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-card-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .hero-stats {
+      font-size: 12px;
+    }
+
+    .hero-stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .hero-stat-label {
+      opacity: 0.85;
+    }
+
+    .hero-stat-value {
+      font-weight: 700;
+    }
+
+    .hero-emoji-card {
+      background: rgba(15, 23, 42, 0.3);
+      border-radius: 18px;
+      padding: 10px;
+      text-align: center;
+      font-size: 26px;
+    }
+
+    .hero-emoji-card p {
+      font-size: 11px;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .hero-floating {
+      position: absolute;
+      bottom: 4px;
+      right: 28px;
+      background: white;
+      color: var(--text-dark);
+      border-radius: 999px;
+      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.3);
+    }
+
+    .dot-yellow {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--yellow);
+    }
+
+    /* LIST SCREEN */
+    .list-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .sitter-card {
+      background: #f9fafb;
+      border-radius: var(--card-radius);
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sitter-top {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #facc15, #fde68a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .sitter-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .sitter-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .star {
+      color: #facc15;
+    }
+
+    .sitter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .tag-available {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .sitter-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .price {
+      font-weight: 700;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: none;
+      background: var(--blue);
+      color: white;
+      cursor: pointer;
+    }
+
+    /* PROFILE SCREEN */
+    .profile-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .profile-main, .profile-side {
+      background: #f9fafb;
+      border-radius: var(--card-radius);
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .profile-header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #bfdbfe, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: white;
+    }
+
+    .profile-name {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .profile-college {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .profile-details {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .profile-details strong {
+      color: var(--text-dark);
+    }
+
+    .profile-side h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .review {
+      background: white;
+      border-radius: 12px;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      font-size: 11px;
+    }
+
+    .review span {
+      display: block;
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .btn-wide {
+      width: 100%;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--yellow), #fbbf24);
+      border: none;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* SIGNUP / BOOKING / CONFIRM */
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .form-card {
+      background: #f9fafb;
+      border-radius: var(--card-radius);
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 7px 9px;
+      font-size: 12px;
+      outline: none;
+      background: white;
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .hint {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .badge-outline {
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 3px 8px;
+      font-size: 10px;
+      color: #374151;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 16px;
+      padding: 10px 12px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .summary-total {
+      font-weight: 700;
+    }
+
+    .confirm-box {
+      background: linear-gradient(145deg, #22c55e, #16a34a);
+      border-radius: 20px;
+      padding: 14px;
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .confirm-icon {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    .confirm-title {
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .confirm-text {
+      font-size: 13px;
+      opacity: 0.95;
+      margin-bottom: 6px;
+    }
+
+    .badge-id {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(15, 23, 42, 0.25);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 11px;
+    }
+
+    .btn-outline {
+      margin-top: 8px;
+      background: white;
+      color: #16a34a;
+      border-radius: 999px;
+      border: none;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .profile-layout,
+      .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-left h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-icon">👶</div>
+        <span>BabyBuddy</span>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-ghost" onclick="document.getElementById('home').scrollIntoView({behavior:'smooth'})">
+          Home
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('list').scrollIntoView({behavior:'smooth'})">
+          Babysitters
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">
+          Become a Babysitter
+        </button>
+        <button class="btn btn-primary" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+          Book Now
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME / HERO -->
+    <section id="home" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Home · Prototype</div>
+          <h2 class="section-title">Welcome to BabyBuddy</h2>
+        </div>
+        <div class="section-subtitle">Trusted Babysitters · Student Opportunities</div>
+      </div>
+      <div class="hero">
+        <div class="hero-left">
+          <h1>
+            <span class="highlight">Safe childcare</span>
+            for parents,<br />
+            flexible income for students.
+          </h1>
+          <p>
+            BabyBuddy connects verified college students with busy parents who need short-term, trusted babysitters —
+            evenings, weekends, and emergencies.
+          </p>
+
+          <div class="hero-badges">
+            <span class="badge">Verified College Sitters</span>
+            <span class="badge badge-yellow">Part-time & Flexible</span>
+            <span class="badge">Urban Families · Nuclear Homes</span>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('list').scrollIntoView({behavior:'smooth'})">
+              👨‍👩‍👧 I’m a Parent
+            </button>
+            <button class="btn btn-secondary" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">
+              🎓 I’m a Student
+            </button>
+          </div>
+
+          <div class="hero-meta">
+            <span><span class="hero-meta-dot"></span> Live demo prototype</span>
+            <span>Made for Ideathon: Education & Social Impact</span>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-title">Tonight’s Babysitter Match</div>
+              <div class="hero-chip">⭐ 4.9 · Trusted</div>
+            </div>
+            <div class="hero-card-body">
+              <div class="hero-stats">
+                <div class="hero-stat-row">
+                  <span class="hero-stat-label">Parent</span>
+                  <span class="hero-stat-value">Working Couple · Noida</span>
+                </div>
+                <div class="hero-stat-row">
+                  <span class="hero-stat-label">Student Sitter</span>
+                  <span class="hero-stat-value">BCA 2nd Year · 3 km away</span>
+                </div>
+                <div class="hero-stat-row">
+                  <span class="hero-stat-label">Timing</span>
+                  <span class="hero-stat-value">6:00 PM – 10:00 PM</span>
+                </div>
+                <div class="hero-stat-row">
+                  <span class="hero-stat-label">Earning</span>
+                  <span class="hero-stat-value">₹800 · 1 Evening</span>
+                </div>
+              </div>
+              <div class="hero-emoji-card">
+                🍼
+                <p>Parents get trusted care. Students get flexible work.</p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-floating">
+            <span class="dot-yellow"></span>
+            <span>Real-world social impact · Dual benefit</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BABYSITTER LIST -->
+    <section id="list" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Screen · Parents</div>
+          <h3 class="section-title">Browse Babysitters Near You</h3>
+        </div>
+        <div class="section-subtitle">Sample listing screen from the BabyBuddy prototype.</div>
+      </div>
+
+      <div class="list-grid">
+        <div class="sitter-card">
+          <div class="sitter-top">
+            <div class="avatar">A</div>
+            <div>
+              <div class="sitter-name">Aditi Sharma, 20</div>
+              <div class="sitter-meta">B.Sc. · 2 yrs babysitting</div>
+              <div class="rating-row">
+                <span class="star">★ 4.9</span>
+                <span>· 32 reviews</span>
+              </div>
+            </div>
+          </div>
+          <div class="sitter-tags">
+            <span class="tag tag-available">Available Today</span>
+            <span class="tag">Evenings · Weekends</span>
+            <span class="tag">First Aid Trained</span>
+          </div>
+          <div class="sitter-footer">
+            <span class="price">₹220 / hour</span>
+            <button class="btn-small">View Profile</button>
+          </div>
+        </div>
+
+        <div class="sitter-card">
+          <div class="sitter-top">
+            <div class="avatar">R</div>
+            <div>
+              <div class="sitter-name">Rahul Verma, 21</div>
+              <div class="sitter-meta">BCA · Works with toddlers</div>
+              <div class="rating-row">
+                <span class="star">★ 4.7</span>
+                <span>· 19 reviews</span>
+              </div>
+            </div>
+          </div>
+          <div class="sitter-tags">
+            <span class="tag tag-available">Available Tonight</span>
+            <span class="tag">Homework Help</span>
+          </div>
+          <div class="sitter-footer">
+            <span class="price">₹200 / hour</span>
+            <button class="btn-small">View Profile</button>
+          </div>
+        </div>
+
+        <div class="sitter-card">
+          <div class="sitter-top">
+            <div class="avatar">S</div>
+            <div>
+              <div class="sitter-name">Sanya Malik, 19</div>
+              <div class="sitter-meta">BA · Plays with kids</div>
+              <div class="rating-row">
+                <span class="star">★ 5.0</span>
+                <span>· 11 reviews</span>
+              </div>
+            </div>
+          </div>
+          <div class="sitter-tags">
+            <span class="tag">Nearby · 1.2 km</span>
+            <span class="tag">Pets Friendly</span>
+          </div>
+          <div class="sitter-footer">
+            <span class="price">₹250 / hour</span>
+            <button class="btn-small">View Profile</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE SCREEN -->
+    <section id="profile" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Screen · Parents</div>
+          <h3 class="section-title">Babysitter Profile View</h3>
+        </div>
+        <div class="section-subtitle">Parents can see full details before booking.</div>
+      </div>
+
+      <div class="profile-layout">
+        <div class="profile-main">
+          <div class="profile-header">
+            <div class="profile-avatar">A</div>
+            <div>
+              <div class="profile-name">Aditi Sharma</div>
+              <div class="profile-college">2nd Year · B.Sc., Local University</div>
+              <div class="pill">
+                ✅ Verified
+                <span style="font-weight:400;">College ID & Govt ID</span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-details">
+            <p><strong>Experience:</strong> 2 years babysitting children aged 3–8.</p>
+            <p><strong>Languages:</strong> Hindi, English</p>
+            <p><strong>Availability:</strong> Weekdays 5–10 PM · Weekends full day</p>
+            <p><strong>About:</strong> “I love spending time with kids, helping with homework and creative activities. I’ve handled up to 2 kids at a time.”</p>
+          </div>
+        </div>
+        <div class="profile-side">
+          <h4>Ratings & Reviews</h4>
+          <div class="rating-row" style="margin-bottom:6px;">
+            <span class="star">★ 4.9</span>
+            <span>Based on 32 parent reviews</span>
+          </div>
+          <div class="review">
+            “Aditi is extremely patient and responsible. Our daughter loves her.”
+            <span>— Priya, Working Mother</span>
+          </div>
+          <div class="review">
+            “On time, trustworthy and great with homework support.”
+            <span>— Ankit, Father of 2 kids</span>
+          </div>
+          <button class="btn-wide">Book Aditi for Tonight</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDENT SIGNUP -->
+    <section id="signup" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Screen · Students</div>
+          <h3 class="section-title">Become a Babysitter (Student Signup)</h3>
+        </div>
+        <div class="section-subtitle">College students can join as verified babysitters.</div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-card">
+          <div class="form-row">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" placeholder="Enter your name" />
+          </div>
+          <div class="form-row">
+            <label class="form-label">College & Course</label>
+            <input class="form-input" type="text" placeholder="e.g., BCA, 2nd Year, XYZ College" />
+          </div>
+          <div class="form-row">
+            <label class="form-label">Upload College ID (Prototype)</label>
+            <input class="form-input" type="text" placeholder="Upload button in real app" />
+            <span class="hint">In the real app, this step verifies students before allowing bookings.</span>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Skills & Experience</label>
+            <textarea class="form-textarea" placeholder="Tell parents about your experience with kids, tutoring, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-row">
+            <label class="form-label">Preferred Timings</label>
+            <div class="badge-row">
+              <span class="badge-outline">Weekday Evenings</span>
+              <span class="badge-outline">Weekend Mornings</span>
+              <span class="badge-outline">Weekend Evenings</span>
+              <span class="badge-outline">Exam Breaks</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Expected Rate (per hour)</label>
+            <input class="form-input" type="text" placeholder="e.g., ₹200 / hour" />
+          </div>
+          <div class="form-row">
+            <label class="form-label">City / Area</label>
+            <input class="form-input" type="text" placeholder="e.g., Noida Sector 62" />
+          </div>
+          <button class="btn-wide">Submit Application (Prototype)</button>
+          <span class="hint">This creates a new student profile for parents to view and book.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKING SCREEN -->
+    <section id="booking" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Screen · Parents</div>
+          <h3 class="section-title">Booking Screen</h3>
+        </div>
+        <div class="section-subtitle">Parents choose date, time and confirm booking.</div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-card">
+          <div class="form-row">
+            <label class="form-label">Select Babysitter</label>
+            <select class="form-select">
+              <option>Aditi Sharma · ₹220 / hour</option>
+              <option>Rahul Verma · ₹200 / hour</option>
+              <option>Sanya Malik · ₹250 / hour</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Date</label>
+            <input class="form-input" type="text" placeholder="e.g., 9th Dec 2025" />
+          </div>
+          <div class="form-row">
+            <label class="form-label">Time Slot</label>
+            <div class="badge-row">
+              <span class="badge-outline">6:00 PM – 8:00 PM</span>
+              <span class="badge-outline">7:00 PM – 10:00 PM</span>
+              <span class="badge-outline">Custom</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Special Instructions</label>
+            <textarea class="form-textarea" placeholder="Child’s age, bedtime, allergies, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h4 style="font-size:13px; font-weight:700; margin-bottom:6px;">Booking Summary</h4>
+          <div class="summary-card">
+            <div class="summary-row">
+              <span>Babysitter</span>
+              <span>Aditi Sharma</span>
+            </div>
+            <div class="summary-row">
+              <span>Date · Time</span>
+              <span>9 Dec · 6 PM – 10 PM</span>
+            </div>
+            <div class="summary-row">
+              <span>Hours</span>
+              <span>4 hours</span>
+            </div>
+            <div class="summary-row">
+              <span>Rate</span>
+              <span>₹220 / hour</span>
+            </div>
+            <hr style="border:none; border-top:1px dashed #e5e7eb; margin:6px 0;" />
+            <div class="summary-row summary-total">
+              <span>Total</span>
+              <span>₹880</span>
+            </div>
+          </div>
+          <button class="btn-wide" style="margin-top:10px;">Proceed to Payment (Prototype)</button>
+          <span class="hint">In a real app, payment would be online and secure.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIRMATION SCREEN -->
+    <section id="confirmation" class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-pill">Screen · Confirmation</div>
+          <h3 class="section-title">Booking Confirmation</h3>
+        </div>
+        <div class="section-subtitle">Final screen after successful booking.</div>
+      </div>
+
+      <div class="confirm-box">
+        <div class="confirm-icon">✅</div>
+        <div class="confirm-title">Your Babysitter is Booked!</div>
+        <div class="confirm-text">
+          Aditi Sharma will arrive at your home on <strong>9 Dec</strong> at <strong>6:00 PM</strong>.
+          You will receive reminders 1 hour before the booking.
+        </div>
+        <div class="badge-id">
+          Booking ID: BB-0923-108
+        </div>
+        <br />
+        <button class="btn-outline" onclick="document.getElementById('home').scrollIntoView({behavior:'smooth'})">
+          Back to Home
+        </button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
